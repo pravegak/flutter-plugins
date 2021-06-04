@@ -11,17 +11,20 @@ class HealthDataPoint {
   String _deviceId;
   String _sourceId;
   String _sourceName;
+  String _deviceModel;
 
   HealthDataPoint._(
-      this._value,
-      this._type,
-      this._unit,
-      this._dateFrom,
-      this._dateTo,
-      this._platform,
-      this._deviceId,
-      this._sourceId,
-      this._sourceName) {
+    this._value,
+    this._type,
+    this._unit,
+    this._dateFrom,
+    this._dateTo,
+    this._platform,
+    this._deviceId,
+    this._sourceId,
+    this._sourceName,
+    this._deviceModel,
+  ) {
     /// Set the value to minutes rather than the category
     /// returned by the native API
     if (type == HealthDataType.MINDFULNESS ||
@@ -48,6 +51,7 @@ class HealthDataPoint {
     data['platform_type'] = this.platform;
     data['source_id'] = this.sourceId;
     data['source_name'] = this.sourceName;
+    data['device_model'] = this._deviceModel;
     return data;
   }
 
@@ -98,6 +102,8 @@ class HealthDataPoint {
   /// Get the name of the source from which
   /// the data point was extracted
   String get sourceName => _sourceName;
+
+  String get deviceModel => _deviceModel;
 
   /// An equals (==) operator for comparing two data points
   /// This makes it possible to remove duplicate data points.

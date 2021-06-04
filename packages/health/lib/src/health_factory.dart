@@ -56,7 +56,7 @@ class HealthFactory {
     for (var i = 0; i < weights.length; i++) {
       final bmiValue = weights[i].value.toDouble() / (h * h);
       final x = HealthDataPoint._(bmiValue, dataType, unit, weights[i].dateFrom,
-          weights[i].dateTo, _platformType, _deviceId!, '', '');
+          weights[i].dateTo, _platformType, _deviceId!, '', '', 'android');
 
       bmiHealthPoints.add(x);
     }
@@ -128,6 +128,7 @@ class HealthFactory {
           _deviceId!,
           sourceId,
           sourceName,
+          e["device_model"],
         );
       }).toList();
     } else {

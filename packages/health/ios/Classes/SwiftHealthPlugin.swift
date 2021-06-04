@@ -124,7 +124,8 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                         "date_from": Int(sample.startDate.timeIntervalSince1970 * 1000),
                         "date_to": Int(sample.endDate.timeIntervalSince1970 * 1000),
                         "source_id": sample.sourceRevision.source.bundleIdentifier,
-                        "source_name": sample.sourceRevision.source.name
+                        "source_name": sample.sourceRevision.source.name,
+                        "device_model": sample.device.model
                     ]
                 })
                 return
@@ -138,7 +139,8 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                     "date_from": Int(sample.startDate.timeIntervalSince1970 * 1000),
                     "date_to": Int(sample.endDate.timeIntervalSince1970 * 1000),
                     "source_id": sample.sourceRevision.source.bundleIdentifier,
-                    "source_name": sample.sourceRevision.source.name
+                    "source_name": sample.sourceRevision.source.name,
+                    "device_model": sample.device.model
                 ]
             })
             return
