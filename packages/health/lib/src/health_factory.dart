@@ -72,7 +72,7 @@ class HealthFactory {
       final result = await _prepareQuery(startDate, endDate, type);
       dataPoints.addAll(result);
     }
-    return removeDuplicates(dataPoints);
+    return removeDuplicates(dataPoints) as List<AbstractDataPoint>;
   }
 
   /// Prepares a query, i.e. checks if the types are available, etc.
@@ -159,9 +159,8 @@ class HealthFactory {
 
   /// Given an array of [HealthDataPoint]s, this method will return the array
   /// without any duplicates.
-  static List<AbstractDataPoint> removeDuplicates(
-      List<AbstractDataPoint> points) {
-    final unique = <AbstractDataPoint>[];
+  static List removeDuplicates(List points) {
+    final unique = [];
 
     for (var p in points) {
       var seenBefore = false;
