@@ -7,7 +7,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     let healthStore = HKHealthStore()
     var healthDataTypes = [HKSampleType]()
     var heartRateEventTypes = Set<HKSampleType>()
-    var workoutSampleTypes = Set<HkSampleType>()
+    var workoutSampleTypes = Set<HKSampleType>()
     var allDataTypes = Set<HKSampleType>()
     var dataTypesDict: [String: HKSampleType] = [:]
     var unitDict: [String: HKUnit] = [:]
@@ -121,7 +121,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                         result(FlutterError(code: "FlutterHealth", message: "Results are null", details: "\(error)"))
                         return
                     }
-                    print(samplesWorkout);
+                    print(samplesWorkout)
                     result(samplesWorkout.map { sample -> NSDictionary in
                         return [
                             "uuid": "\(sample.uuid)",
@@ -257,10 +257,10 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
 
         // set up workout related data types
         if #available(iOS 12.2, *){
-            dataTypesDict[WORKOUT] = HKSampleType.workoutType()!
+            dataTypesDict[WORKOUT] = HKSampleType.workoutType()
 
             workoutSampleTypes = Set([
-                HkSampleType.workoutType()!,
+                HKSampleType.workoutType(),
             ])
         }
 
