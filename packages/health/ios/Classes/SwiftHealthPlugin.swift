@@ -131,8 +131,8 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                             "date_to": Int(sample.endDate.timeIntervalSince1970 * 1000),
                             "duration": Double(sample.duration),
                             "workout_activity_type": String(describing: sample.workoutActivityType),
-                            "total_distance": (sample.totalDistance == nil) ? 0.0 : sample.totalDistance.doubleValue(for: HKUnit.meter()),
-                            "total_energy_burned": (sample.totalEnergyBurned == nil) ? 0.0 : sample.totalEnergyBurned.doubleValue(for: HKUnit.kilocalorie()),
+                            "total_distance": (sample.totalDistance == nil) ? 0.0 : sample.totalDistance?.doubleValue(for: HKUnit.meter()),
+                            "total_energy_burned": (sample.totalEnergyBurned == nil) ? 0.0 : sample.totalEnergyBurned?.doubleValue(for: HKUnit.kilocalorie()),
                         ]
                     })
                     return
