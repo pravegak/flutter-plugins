@@ -7,6 +7,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     let healthStore = HKHealthStore()
     var healthDataTypes = [HKSampleType]()
     var heartRateEventTypes = Set<HKSampleType>()
+    var workoutSampleTypes = Set<HkSampleType>()
     var allDataTypes = Set<HKSampleType>()
     var dataTypesDict: [String: HKSampleType] = [:]
     var unitDict: [String: HKUnit] = [:]
@@ -40,6 +41,11 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     let SLEEP_IN_BED = "SLEEP_IN_BED"
     let SLEEP_ASLEEP = "SLEEP_ASLEEP"
     let SLEEP_AWAKE = "SLEEP_AWAKE"
+
+    let WORKOUT = "WORKOUT"
+    // let WORKOUT_CYCLING = "WORKOUT_CYCLING"
+    // let WORKOUT_SWIMMING = "WORKOUT_SWIMMING"
+    // let WORKOUT_WALKING = "WORKOUT_WALKING"
 
 
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -111,8 +117,22 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
 
             guard let samples = samplesOrNil as? [HKQuantitySample] else {
                 guard let samplesCategory = samplesOrNil as? [HKCategorySample] else {
-                    result(FlutterError(code: "FlutterHealth", message: "Results are null", details: "\(error)"))
-                    return
+                    gaurd let samplesWorkout = samplesOrNil as? [HKWorkoutSample] else {
+                        result(FlutterError(code: "FlutterHealth", message: "Results are null", details: "\(error)"))
+                        return
+                    }
+                    print(samplesWorkout);
+                    return [
+                        "uuid": "\(sample.uuid)",
+                        "sample_type": "workout",
+                        "device_model": sample.device?.model,
+                        "date_from": Int(sample.startDate.timeIntervalSince1970 * 1000),
+                        "date_to": Int(sample.endDate.timeIntervalSince1970 * 1000),
+                        "duration": Double(sample.duration),
+                        "workout_activity_type": String(describing: sample.workoutActivityType),
+                        "total_distance": (sample.totalDistance == nil) ? 0.0 : sample.totalDistance.doubleValue(for: HKUnit.meter()),
+                        "total_energy_burned": (sample.totalEnergyBurned == nil) ? 0.0 : sample.totalEnergyBurned.doubleValue(for: HKUnit.kilocalorie()),
+                    ]
                 }
                 print(samplesCategory)
                 result(samplesCategory.map { sample -> NSDictionary in
@@ -232,8 +252,18 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                 ])
         }
 
+        // set up workout related data types
+        if #available(iOS 12.2, *){
+            dataTypesDict[WORKOUT] = HKSampleType.workoutType()!
+
+            workoutSampleTypes = Set([
+                HkSampleType.workoutType()!,
+            ])
+        }
+
+
         // Concatenate heart events and health data types (both may be empty)
-        allDataTypes = Set(heartRateEventTypes + healthDataTypes)
+        allDataTypes = Set(heartRateEventTypes + healthDataTypes + workoutSampleTypes)
     }
 }
 

@@ -1,7 +1,9 @@
 part of '../health.dart';
 
+abstract class AbstractDataPoint {}
+
 /// A [HealthDataPoint] object corresponds to a data point captures from GoogleFit or Apple HealthKit
-class HealthDataPoint {
+class HealthDataPoint extends AbstractDataPoint {
   num _value;
   HealthDataType _type;
   HealthDataUnit _unit;
@@ -124,4 +126,107 @@ class HealthDataPoint {
   /// Override required due to overriding the '==' operator
   @override
   int get hashCode => toJson().hashCode;
+}
+
+class WorkoutDataPoint extends AbstractDataPoint {
+  HealthDataType _type;
+  DateTime _dateFrom;
+  DateTime _dateTo;
+  PlatformType _platform;
+  String _deviceId;
+  String _sourceId;
+  String _sourceName;
+  String _deviceModel;
+  String _activityType;
+  Double _totalDistance;
+  Double _totalEnergyBurned;
+  Double _duration;
+
+  WorkoutDataPoint._(
+    this._type,
+    this._dateFrom,
+    this._dateTo,
+    this._platform,
+    this._deviceId,
+    this._sourceId,
+    this._sourceName,
+    this._deviceModel,
+    this._activityType,
+    this._totalDistance,
+    this._totalEnergyBurned,
+    this._duration,
+  );
+
+  /// Converts the [HealthDataPoint] to a string
+  String toString() => '${this.runtimeType} - '
+      'activityType: $activityType, '
+      'totalDistance: $totalDistance, '
+      'total Energy Burned: $totalEnergyBurned, '
+      'duration : $duration, '
+      'dateFrom: $dateFrom, '
+      'dateTo: $dateTo, '
+      'dataType: $type,'
+      'platform: $platform'
+      'sourceId: $sourceId,'
+      'sourceName: $sourceName,';
+
+  /// Get the start of the datetime interval
+  DateTime get dateFrom => _dateFrom;
+
+  /// Get the end of the datetime interval
+  DateTime get dateTo => _dateTo;
+
+  /// Get the type of the data point
+  HealthDataType get type => _type;
+
+  /// Get the software platform of the data point
+  /// (i.e. Android or iOS)
+  PlatformType get platform => _platform;
+
+  /// Get the data point type as a string
+  String get typeString => _enumToString(_type);
+
+  /// Get the id of the device from which
+  /// the data point was extracted
+  String get deviceId => _deviceId;
+
+  /// Get the id of the source from which
+  /// the data point was extracted
+  String get sourceId => _sourceId;
+
+  /// Get the name of the source from which
+  /// the data point was extracted
+  String get sourceName => _sourceName;
+
+  String get deviceModel => _deviceModel;
+
+  String get activityType => _activityType;
+
+  Double get totalDistance => _totalDistance;
+
+  Double get totalEnergyBurned => _totalEnergyBurned;
+
+  Double get duration => _duration;
+
+  /// An equals (==) operator for comparing two data points
+  /// This makes it possible to remove duplicate data points.
+  @override
+  bool operator ==(Object o) {
+    return o is WorkoutDataPoint &&
+        this.totalEnergyBurned == o.totalEnergyBurned &&
+        this.duration == o.duration &&
+        this.totalDistance == o.totalDistance &&
+        this.activityType == o.activityType &&
+        this.dateFrom == o.dateFrom &&
+        this.dateTo == o.dateTo &&
+        this.type == o.type &&
+        this.platform == o.platform &&
+        this.deviceId == o.deviceId &&
+        this.sourceId == o.sourceId &&
+        this.sourceName == o.sourceName;
+  }
+
+  /// Override required due to overriding the '==' operator
+  @override
+  int get hashCode => toString().hashCode;
 }
