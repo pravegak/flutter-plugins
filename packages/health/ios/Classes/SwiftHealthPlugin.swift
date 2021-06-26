@@ -117,22 +117,25 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
 
             guard let samples = samplesOrNil as? [HKQuantitySample] else {
                 guard let samplesCategory = samplesOrNil as? [HKCategorySample] else {
-                    gaurd let samplesWorkout = samplesOrNil as? [HKWorkoutSample] else {
+                    guard let samplesWorkout = samplesOrNil as? [HKWorkoutSample] else {
                         result(FlutterError(code: "FlutterHealth", message: "Results are null", details: "\(error)"))
                         return
                     }
                     print(samplesWorkout);
-                    return [
-                        "uuid": "\(sample.uuid)",
-                        "sample_type": "workout",
-                        "device_model": sample.device?.model,
-                        "date_from": Int(sample.startDate.timeIntervalSince1970 * 1000),
-                        "date_to": Int(sample.endDate.timeIntervalSince1970 * 1000),
-                        "duration": Double(sample.duration),
-                        "workout_activity_type": String(describing: sample.workoutActivityType),
-                        "total_distance": (sample.totalDistance == nil) ? 0.0 : sample.totalDistance.doubleValue(for: HKUnit.meter()),
-                        "total_energy_burned": (sample.totalEnergyBurned == nil) ? 0.0 : sample.totalEnergyBurned.doubleValue(for: HKUnit.kilocalorie()),
-                    ]
+                    result(samplesWorkout.map { sample -> NSDictionary in
+                        return [
+                            "uuid": "\(sample.uuid)",
+                            "sample_type": "workout",
+                            "device_model": sample.device?.model,
+                            "date_from": Int(sample.startDate.timeIntervalSince1970 * 1000),
+                            "date_to": Int(sample.endDate.timeIntervalSince1970 * 1000),
+                            "duration": Double(sample.duration),
+                            "workout_activity_type": String(describing: sample.workoutActivityType),
+                            "total_distance": (sample.totalDistance == nil) ? 0.0 : sample.totalDistance.doubleValue(for: HKUnit.meter()),
+                            "total_energy_burned": (sample.totalEnergyBurned == nil) ? 0.0 : sample.totalEnergyBurned.doubleValue(for: HKUnit.kilocalorie()),
+                        ]
+                    })
+                    return
                 }
                 print(samplesCategory)
                 result(samplesCategory.map { sample -> NSDictionary in
