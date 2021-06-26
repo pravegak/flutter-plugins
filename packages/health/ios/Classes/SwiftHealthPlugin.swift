@@ -117,7 +117,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
 
             guard let samples = samplesOrNil as? [HKQuantitySample] else {
                 guard let samplesCategory = samplesOrNil as? [HKCategorySample] else {
-                    guard let samplesWorkout = samplesOrNil as? [HKWorkoutSample] else {
+                    guard let samplesWorkout = samplesOrNil as? [HKWorkout] else {
                         result(FlutterError(code: "FlutterHealth", message: "Results are null", details: "\(error)"))
                         return
                     }
