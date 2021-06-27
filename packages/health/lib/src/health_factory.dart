@@ -119,10 +119,10 @@ class HealthFactory {
             e["device_model"] == null ? "manually stored" : e["device_model"];
 
         if (e['sample_type'] == 'workout') {
-          final Double duration = e['duration'];
+          final double duration = e['duration'];
           final String activityType = e['workout_activity_type'];
-          final Double distance = e['total_distance'];
-          final Double energyBurned = e['total_energy_burned'];
+          final double distance = e['total_distance'];
+          final double energyBurned = e['total_energy_burned'];
           return WorkoutDataPoint._(
             dataType,
             from,
@@ -138,6 +138,7 @@ class HealthFactory {
             duration,
           );
         }
+        return WorkoutDataPoint();
         // final num value = e['value'];
         // final unit = _dataTypeToUnit[dataType]!;
         // return HealthDataPoint._(
