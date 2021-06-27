@@ -138,9 +138,9 @@ class WorkoutDataPoint extends AbstractDataPoint {
   String _sourceName;
   String _deviceModel;
   String _activityType;
-  Double _totalDistance;
-  Double _totalEnergyBurned;
-  Double _duration;
+  double _totalDistance;
+  double _totalEnergyBurned;
+  double _duration;
 
   WorkoutDataPoint._(
     this._type,
@@ -202,11 +202,11 @@ class WorkoutDataPoint extends AbstractDataPoint {
 
   String get activityType => _activityType;
 
-  Double get totalDistance => _totalDistance;
+  double get totalDistance => _totalDistance;
 
-  Double get totalEnergyBurned => _totalEnergyBurned;
+  double get totalEnergyBurned => _totalEnergyBurned;
 
-  Double get duration => _duration;
+  double get duration => _duration;
 
   /// An equals (==) operator for comparing two data points
   /// This makes it possible to remove duplicate data points.
