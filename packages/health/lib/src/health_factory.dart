@@ -64,19 +64,19 @@ class HealthFactory {
   // }
 
   /// Get an array of [HealthDataPoint] from an array of [HealthDataType]
-  Future<List<AbstractDataPoint>> getHealthDataFromTypes(
+  Future<List<WorkoutDataPoint>> getHealthDataFromTypes(
       DateTime startDate, DateTime endDate, List<HealthDataType> types) async {
-    final dataPoints = <AbstractDataPoint>[];
+    final dataPoints = <WorkoutDataPoint>[];
 
     for (var type in types) {
       final result = await _prepareQuery(startDate, endDate, type);
       dataPoints.addAll(result);
     }
-    return removeDuplicates(dataPoints) as List<AbstractDataPoint>;
+    return removeDuplicates(dataPoints);
   }
 
   /// Prepares a query, i.e. checks if the types are available, etc.
-  Future<List<AbstractDataPoint>> _prepareQuery(
+  Future<List<WorkoutDataPoint>> _prepareQuery(
       DateTime startDate, DateTime endDate, HealthDataType dataType) async {
     /// Ask for device ID only once
     _deviceId ??= _platformType == PlatformType.ANDROID
@@ -98,7 +98,7 @@ class HealthFactory {
   }
 
   /// The main function for fetching health data
-  Future<List<AbstractDataPoint>> _dataQuery(
+  Future<List<WorkoutDataPoint>> _dataQuery(
       DateTime startDate, DateTime endDate, HealthDataType dataType) async {
     // Set parameters for method channel request
     final args = <String, dynamic>{
@@ -109,7 +109,7 @@ class HealthFactory {
 
     final fetchedDataPoints = await _channel.invokeMethod('getData', args);
     if (fetchedDataPoints != null) {
-      return fetchedDataPoints.map<AbstractDataPoint>((e) {
+      return fetchedDataPoints.map<WorkoutDataPoint>((e) {
         final DateTime from =
             DateTime.fromMillisecondsSinceEpoch(e['date_from']);
         final DateTime to = DateTime.fromMillisecondsSinceEpoch(e['date_to']);
@@ -138,30 +138,31 @@ class HealthFactory {
             duration,
           );
         }
-        final num value = e['value'];
-        final unit = _dataTypeToUnit[dataType]!;
-        return HealthDataPoint._(
-          value,
-          dataType,
-          unit,
-          from,
-          to,
-          _platformType,
-          _deviceId!,
-          sourceId,
-          sourceName,
-          deviceModel,
-        );
+        // final num value = e['value'];
+        // final unit = _dataTypeToUnit[dataType]!;
+        // return HealthDataPoint._(
+        //   value,
+        //   dataType,
+        //   unit,
+        //   from,
+        //   to,
+        //   _platformType,
+        //   _deviceId!,
+        //   sourceId,
+        //   sourceName,
+        //   deviceModel,
+        // );
       }).toList();
     } else {
-      return <HealthDataPoint>[];
+      return <WorkoutDataPoint>[];
     }
   }
 
   /// Given an array of [HealthDataPoint]s, this method will return the array
   /// without any duplicates.
-  static List removeDuplicates(List points) {
-    final unique = [];
+  static List<WorkoutDataPoint> removeDuplicates(
+      List<WorkoutDataPoint> points) {
+    final List<WorkoutDataPoint> unique = [];
 
     for (var p in points) {
       var seenBefore = false;
