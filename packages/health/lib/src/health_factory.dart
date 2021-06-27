@@ -115,7 +115,8 @@ class HealthFactory {
         final DateTime to = DateTime.fromMillisecondsSinceEpoch(e['date_to']);
         final String sourceId = e["source_id"];
         final String sourceName = e["source_name"];
-        final String deviceModel = e["device_model"];
+        final String deviceModel =
+            e["device_model"] == null ? "manually stored" : e["device_model"];
 
         if (e['sample_type'] == 'workout') {
           final Double duration = e['duration'];
