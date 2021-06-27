@@ -129,20 +129,18 @@ class HealthDataPoint extends AbstractDataPoint {
 }
 
 class WorkoutDataPoint extends AbstractDataPoint {
-  late HealthDataType _type;
-  late DateTime _dateFrom;
-  late DateTime _dateTo;
-  late PlatformType _platform;
-  late String _deviceId;
-  late String _sourceId;
-  late String _sourceName;
-  late String _deviceModel;
-  late String _activityType;
-  late double _totalDistance;
-  late double _totalEnergyBurned;
-  late double _duration;
-
-  WorkoutDataPoint();
+  HealthDataType _type;
+  DateTime _dateFrom;
+  DateTime _dateTo;
+  PlatformType _platform;
+  String _deviceId;
+  String _sourceId;
+  String _sourceName;
+  String _deviceModel;
+  String _activityType;
+  Double _totalDistance;
+  Double _totalEnergyBurned;
+  Double _duration;
 
   WorkoutDataPoint._(
     this._type,
@@ -204,11 +202,11 @@ class WorkoutDataPoint extends AbstractDataPoint {
 
   String get activityType => _activityType;
 
-  double get totalDistance => _totalDistance;
+  Double get totalDistance => _totalDistance;
 
-  double get totalEnergyBurned => _totalEnergyBurned;
+  Double get totalEnergyBurned => _totalEnergyBurned;
 
-  double get duration => _duration;
+  Double get duration => _duration;
 
   /// An equals (==) operator for comparing two data points
   /// This makes it possible to remove duplicate data points.
