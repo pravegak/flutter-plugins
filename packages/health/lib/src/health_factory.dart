@@ -34,39 +34,39 @@ class HealthFactory {
     return isAuthorized;
   }
 
-  /// Calculate the BMI using the last observed height and weight values.
-  // Future<List<AbstractDataPoint>> _computeAndroidBMI(
-  //     DateTime startDate, DateTime endDate) async {
-  //   List<AbstractDataPoint> heights =
-  //       await _prepareQuery(startDate, endDate, HealthDataType.HEIGHT);
+  // / Calculate the BMI using the last observed height and weight values.
+  Future<List<HealthDataPoint>> _computeAndroidBMI(
+      DateTime startDate, DateTime endDate) async {
+    List<HealthDataPoint> heights =
+        await _prepareQuery(startDate, endDate, HealthDataType.HEIGHT);
 
-  //   if (heights.isEmpty) {
-  //     return [];
-  //   }
+    if (heights.isEmpty) {
+      return [];
+    }
 
-  //   List<AbstractDataPoint> weights =
-  //       await _prepareQuery(startDate, endDate, HealthDataType.WEIGHT);
+    List<HealthDataPoint> weights =
+        await _prepareQuery(startDate, endDate, HealthDataType.WEIGHT);
 
-  //   double h = heights.last.value.toDouble();
+    double h = heights.last.value.toDouble();
 
-  //   const dataType = HealthDataType.BODY_MASS_INDEX;
-  //   final unit = _dataTypeToUnit[dataType]!;
+    const dataType = HealthDataType.BODY_MASS_INDEX;
+    final unit = _dataTypeToUnit[dataType]!;
 
-  //   final bmiHealthPoints = <HealthDataPoint>[];
-  //   for (var i = 0; i < weights.length; i++) {
-  //     final bmiValue = weights[i].value.toDouble() / (h * h);
-  //     final x = HealthDataPoint._(bmiValue, dataType, unit, weights[i].dateFrom,
-  //         weights[i].dateTo, _platformType, _deviceId!, '', '', 'android');
+    final bmiHealthPoints = <HealthDataPoint>[];
+    for (var i = 0; i < weights.length; i++) {
+      final bmiValue = weights[i].value.toDouble() / (h * h);
+      final x = HealthDataPoint._(bmiValue, dataType, unit, weights[i].dateFrom,
+          weights[i].dateTo, _platformType, _deviceId!, '', '', 'android');
 
-  //     bmiHealthPoints.add(x);
-  //   }
-  //   return bmiHealthPoints;
-  // }
+      bmiHealthPoints.add(x);
+    }
+    return bmiHealthPoints;
+  }
 
   /// Get an array of [HealthDataPoint] from an array of [HealthDataType]
-  Future<List<WorkoutDataPoint>> getHealthDataFromTypes(
+  Future<List<HealthDataPoint>> getHealthDataFromTypes(
       DateTime startDate, DateTime endDate, List<HealthDataType> types) async {
-    final dataPoints = <WorkoutDataPoint>[];
+    final dataPoints = <HealthDataPoint>[];
 
     for (var type in types) {
       final result = await _prepareQuery(startDate, endDate, type);
@@ -76,7 +76,7 @@ class HealthFactory {
   }
 
   /// Prepares a query, i.e. checks if the types are available, etc.
-  Future<List<WorkoutDataPoint>> _prepareQuery(
+  Future<List<HealthDataPoint>> _prepareQuery(
       DateTime startDate, DateTime endDate, HealthDataType dataType) async {
     /// Ask for device ID only once
     _deviceId ??= _platformType == PlatformType.ANDROID
@@ -89,27 +89,37 @@ class HealthFactory {
           dataType, 'Not available on platform $_platformType');
     }
 
-    /// If BodyMassIndex is requested on Android, calculate this manually in Dart
-    // if (dataType == HealthDataType.BODY_MASS_INDEX &&
-    //     _platformType == PlatformType.ANDROID) {
-    //   return _computeAndroidBMI(startDate, endDate);
-    // }
+    // / If BodyMassIndex is requested on Android, calculate this manually in Dart
+    if (dataType == HealthDataType.BODY_MASS_INDEX &&
+        _platformType == PlatformType.ANDROID) {
+      return _computeAndroidBMI(startDate, endDate);
+    }
     return await _dataQuery(startDate, endDate, dataType);
   }
 
-  /// The main function for fetching health data
-  Future<List<WorkoutDataPoint>> _dataQuery(
-      DateTime startDate, DateTime endDate, HealthDataType dataType) async {
+  Future<List<WorkoutDataPoint>> getWorkoutData(
+      DateTime startDate, DateTime endDate) async {
+    _deviceId ??= _platformType == PlatformType.ANDROID
+        ? (await _deviceInfo.androidInfo).androidId
+        : (await _deviceInfo.iosInfo).identifierForVendor;
+
+    /// If not implemented on platform, throw an exception
+    if (!_isDataTypeAvailable(HealthDataType.WORKOUT)) {
+      throw _HealthException(
+        HealthDataType.WORKOUT,
+        'Not available on platform $_platformType',
+      );
+    }
     // Set parameters for method channel request
     final args = <String, dynamic>{
-      'dataTypeKey': _enumToString(dataType),
+      'dataTypeKey': _enumToString(HealthDataType.WORKOUT),
       'startDate': startDate.millisecondsSinceEpoch,
       'endDate': endDate.millisecondsSinceEpoch
     };
 
     final fetchedDataPoints = await _channel.invokeMethod('getData', args);
     if (fetchedDataPoints != null) {
-      return fetchedDataPoints.map<WorkoutDataPoint>((e) {
+      var pointsWithNull = fetchedDataPoints.map<WorkoutDataPoint?>((e) {
         final DateTime from =
             DateTime.fromMillisecondsSinceEpoch(e['date_from']);
         final DateTime to = DateTime.fromMillisecondsSinceEpoch(e['date_to']);
@@ -124,7 +134,6 @@ class HealthFactory {
           final double distance = e['total_distance'];
           final double energyBurned = e['total_energy_burned'];
           return WorkoutDataPoint._(
-            dataType,
             from,
             to,
             _platformType,
@@ -138,43 +147,80 @@ class HealthFactory {
             duration,
           );
         }
-        return WorkoutDataPoint._(
-          HealthDataType.WORKOUT,
-          DateTime.now(),
-          DateTime.now(),
-          PlatformType.IOS,
-          'device id',
-          'source id',
-          'source name',
-          'device model',
-          'activity type',
-          10.0,
-          0.0,
-          0.0,
-        );
-        // final num value = e['value'];
-        // final unit = _dataTypeToUnit[dataType]!;
-        // return HealthDataPoint._(
-        //   value,
-        //   dataType,
-        //   unit,
-        //   from,
-        //   to,
-        //   _platformType,
-        //   _deviceId!,
-        //   sourceId,
-        //   sourceName,
-        //   deviceModel,
-        // );
+        return null;
       }).toList();
+      List<WorkoutDataPoint> res = [];
+      for (var e in pointsWithNull) {
+        if (e != null) {
+          res.add(e);
+        }
+      }
+      return res;
     } else {
       return <WorkoutDataPoint>[];
     }
   }
 
+  /// The main function for fetching health data
+  Future<List<HealthDataPoint>> _dataQuery(
+      DateTime startDate, DateTime endDate, HealthDataType dataType) async {
+    // Set parameters for method channel request
+    final args = <String, dynamic>{
+      'dataTypeKey': _enumToString(dataType),
+      'startDate': startDate.millisecondsSinceEpoch,
+      'endDate': endDate.millisecondsSinceEpoch
+    };
+
+    final fetchedDataPoints = await _channel.invokeMethod('getData', args);
+    if (fetchedDataPoints != null) {
+      return fetchedDataPoints.map<HealthDataPoint>((e) {
+        final DateTime from =
+            DateTime.fromMillisecondsSinceEpoch(e['date_from']);
+        final DateTime to = DateTime.fromMillisecondsSinceEpoch(e['date_to']);
+        final String sourceId = e["source_id"];
+        final String sourceName = e["source_name"];
+        final String deviceModel =
+            e["device_model"] == null ? "manually stored" : e["device_model"];
+        final num value = e['value'];
+        final unit = _dataTypeToUnit[dataType]!;
+        return HealthDataPoint._(
+          value,
+          dataType,
+          unit,
+          from,
+          to,
+          _platformType,
+          _deviceId!,
+          sourceId,
+          sourceName,
+          deviceModel,
+        );
+      }).toList();
+    } else {
+      return <HealthDataPoint>[];
+    }
+  }
+
   /// Given an array of [HealthDataPoint]s, this method will return the array
   /// without any duplicates.
-  static List<WorkoutDataPoint> removeDuplicates(
+  static List<HealthDataPoint> removeDuplicates(List<HealthDataPoint> points) {
+    final List<HealthDataPoint> unique = [];
+
+    for (var p in points) {
+      var seenBefore = false;
+      for (var s in unique) {
+        if (s == p) {
+          seenBefore = true;
+        }
+      }
+      if (!seenBefore) {
+        unique.add(p);
+      }
+    }
+    return unique;
+  }
+
+  static List<WorkoutDataPoint> removeDupsWorkout(
       List<WorkoutDataPoint> points) {
     final List<WorkoutDataPoint> unique = [];
 

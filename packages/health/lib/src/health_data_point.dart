@@ -1,9 +1,7 @@
 part of '../health.dart';
 
-abstract class AbstractDataPoint {}
-
 /// A [HealthDataPoint] object corresponds to a data point captures from GoogleFit or Apple HealthKit
-class HealthDataPoint extends AbstractDataPoint {
+class HealthDataPoint {
   num _value;
   HealthDataType _type;
   HealthDataUnit _unit;
@@ -128,8 +126,7 @@ class HealthDataPoint extends AbstractDataPoint {
   int get hashCode => toJson().hashCode;
 }
 
-class WorkoutDataPoint extends AbstractDataPoint {
-  HealthDataType _type;
+class WorkoutDataPoint {
   DateTime _dateFrom;
   DateTime _dateTo;
   PlatformType _platform;
@@ -143,7 +140,6 @@ class WorkoutDataPoint extends AbstractDataPoint {
   double _duration;
 
   WorkoutDataPoint._(
-    this._type,
     this._dateFrom,
     this._dateTo,
     this._platform,
@@ -165,7 +161,6 @@ class WorkoutDataPoint extends AbstractDataPoint {
       'duration : $duration, '
       'dateFrom: $dateFrom, '
       'dateTo: $dateTo, '
-      'dataType: $type,'
       'platform: $platform'
       'sourceId: $sourceId,'
       'sourceName: $sourceName,';
@@ -176,15 +171,11 @@ class WorkoutDataPoint extends AbstractDataPoint {
   /// Get the end of the datetime interval
   DateTime get dateTo => _dateTo;
 
-  /// Get the type of the data point
-  HealthDataType get type => _type;
-
   /// Get the software platform of the data point
   /// (i.e. Android or iOS)
   PlatformType get platform => _platform;
 
-  /// Get the data point type as a string
-  String get typeString => _enumToString(_type);
+  String get typeString => _enumToString(HealthDataType.WORKOUT);
 
   /// Get the id of the device from which
   /// the data point was extracted
@@ -219,7 +210,6 @@ class WorkoutDataPoint extends AbstractDataPoint {
         this.activityType == o.activityType &&
         this.dateFrom == o.dateFrom &&
         this.dateTo == o.dateTo &&
-        this.type == o.type &&
         this.platform == o.platform &&
         this.deviceId == o.deviceId &&
         this.sourceId == o.sourceId &&
