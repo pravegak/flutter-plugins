@@ -42,12 +42,14 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     let SLEEP_ASLEEP = "SLEEP_ASLEEP"
     let SLEEP_AWAKE = "SLEEP_AWAKE"
     let STAND_HOUR = "STAND_HOUR"
+    let DISTANCE_SWIMMING = "DISTANCE_SWIMMING"
+    let DISTANCE_CYCLING = "DISTANCE_CYCLING"
+    let EXERCISE_TIME = "EXERCISE_TIME"
 
     let WORKOUT = "WORKOUT"
     // let WORKOUT_CYCLING = "WORKOUT_CYCLING"
     // let WORKOUT_SWIMMING = "WORKOUT_SWIMMING"
     // let WORKOUT_WALKING = "WORKOUT_WALKING"
-
 
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "flutter_health", binaryMessenger: registrar.messenger())
@@ -213,6 +215,9 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         unitDict[SLEEP_ASLEEP] = HKUnit.init(from: "")
         unitDict[SLEEP_AWAKE] = HKUnit.init(from: "")
         unitDict[STAND_HOUR] = HKUnit.init(from: "")
+        unitDict[DISTANCE_SWIMMING] = HKUnit.meter()
+        unitDict[DISTANCE_CYCLING] = HKUnit.meter()
+        unitDict[EXERCISE_TIME] = HKUnit.init(from: "")
 
         // Set up iOS 11 specific types (ordinary health data types)
         if #available(iOS 11.0, *) { 
@@ -237,6 +242,11 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             dataTypesDict[DISTANCE_WALKING_RUNNING] = HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!
             dataTypesDict[FLIGHTS_CLIMBED] = HKSampleType.quantityType(forIdentifier: .flightsClimbed)!
             dataTypesDict[WATER] = HKSampleType.quantityType(forIdentifier: .dietaryWater)!
+            dataTypesDict[DISTANCE_SWIMMING] = HKSampleType.quantityType(forIdentifier: .distanceSwimming)!
+            dataTypesDict[DISTANCE_CYCLING] = HKSampleType.quantityType(forIdentifier: .distanceCycling)!
+            dataTypesDict[EXERCISE_TIME] = HKSampleType.quantityType(forIdentifier: .appleExerciseTime)!
+
+
             dataTypesDict[MINDFULNESS] = HKSampleType.categoryType(forIdentifier: .mindfulSession)!
             dataTypesDict[SLEEP_IN_BED] = HKSampleType.categoryType(forIdentifier: .sleepAnalysis)!
             dataTypesDict[SLEEP_ASLEEP] = HKSampleType.categoryType(forIdentifier: .sleepAnalysis)!
