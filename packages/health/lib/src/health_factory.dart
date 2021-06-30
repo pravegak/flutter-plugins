@@ -123,8 +123,10 @@ class HealthFactory {
         final DateTime from =
             DateTime.fromMillisecondsSinceEpoch(e['date_from']);
         final DateTime to = DateTime.fromMillisecondsSinceEpoch(e['date_to']);
-        final String sourceId = e["source_id"];
-        final String sourceName = e["source_name"];
+        final String sourceId =
+            e["source_id"] == null ? 'random source id' : e["source_id"];
+        final String sourceName =
+            e["source_name"] == null ? 'source name' : e["source_name"];
         final String deviceModel =
             e["device_model"] == null ? "manually stored" : e["device_model"];
 
@@ -177,8 +179,10 @@ class HealthFactory {
         final DateTime from =
             DateTime.fromMillisecondsSinceEpoch(e['date_from']);
         final DateTime to = DateTime.fromMillisecondsSinceEpoch(e['date_to']);
-        final String sourceId = e["source_id"];
-        final String sourceName = e["source_name"];
+        final String sourceId =
+            e["source_id"] == null ? 'random source id' : e["source_id"];
+        final String sourceName =
+            e["source_name"] == null ? 'source name' : e["source_name"];
         final String deviceModel =
             e["device_model"] == null ? "manually stored" : e["device_model"];
         final num value = e['value'];
