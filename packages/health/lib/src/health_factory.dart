@@ -55,8 +55,19 @@ class HealthFactory {
     final bmiHealthPoints = <HealthDataPoint>[];
     for (var i = 0; i < weights.length; i++) {
       final bmiValue = weights[i].value.toDouble() / (h * h);
-      final x = HealthDataPoint._(bmiValue, dataType, unit, weights[i].dateFrom,
-          weights[i].dateTo, _platformType, _deviceId!, '', '', 'android');
+      final x = HealthDataPoint._(
+        weights[i].uuid,
+        bmiValue,
+        dataType,
+        unit,
+        weights[i].dateFrom,
+        weights[i].dateTo,
+        _platformType,
+        _deviceId!,
+        '',
+        '',
+        'android',
+      );
 
       bmiHealthPoints.add(x);
     }
@@ -188,6 +199,7 @@ class HealthFactory {
         final num value = e['value'];
         final unit = _dataTypeToUnit[dataType]!;
         return HealthDataPoint._(
+          e['uuid'],
           value,
           dataType,
           unit,

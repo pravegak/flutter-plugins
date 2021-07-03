@@ -2,6 +2,7 @@ part of '../health.dart';
 
 /// A [HealthDataPoint] object corresponds to a data point captures from GoogleFit or Apple HealthKit
 class HealthDataPoint {
+  String _uuid;
   num _value;
   HealthDataType _type;
   HealthDataUnit _unit;
@@ -14,6 +15,7 @@ class HealthDataPoint {
   String _deviceModel;
 
   HealthDataPoint._(
+    this._uuid,
     this._value,
     this._type,
     this._unit,
@@ -43,6 +45,7 @@ class HealthDataPoint {
   /// Converts the [HealthDataPoint] to a json object
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['uuid'] = this.uuid;
     data['value'] = this.value;
     data['unit'] = this.unit;
     data['date_from'] = this.dateFrom;
@@ -57,6 +60,7 @@ class HealthDataPoint {
 
   /// Converts the [HealthDataPoint] to a string
   String toString() => '${this.runtimeType} - '
+      'uuid: $uuid, '
       'value: $value, '
       'unit: $unit, '
       'dateFrom: $dateFrom, '
@@ -65,6 +69,9 @@ class HealthDataPoint {
       'platform: $platform'
       'sourceId: $sourceId,'
       'sourceName: $sourceName,';
+
+  /// UUID of sample
+  String get uuid => _uuid;
 
   /// Get the quantity value of the data point
   num get value => _value;
