@@ -1,6 +1,7 @@
-part of '../health.dart';
+part of health;
 
-/// A [HealthDataPoint] object corresponds to a data point captures from GoogleFit or Apple HealthKit
+/// A [HealthDataPoint] object corresponds to a data point captures from
+/// GoogleFit or Apple HealthKit
 class HealthDataPoint {
   String _uuid;
   num _value;
@@ -14,7 +15,7 @@ class HealthDataPoint {
   String _sourceName;
   String _deviceModel;
 
-  HealthDataPoint._(
+  HealthDataPoint(
     this._uuid,
     this._value,
     this._type,
@@ -27,8 +28,8 @@ class HealthDataPoint {
     this._sourceName,
     this._deviceModel,
   ) {
-    /// Set the value to minutes rather than the category
-    /// returned by the native API
+    // set the value to minutes rather than the category
+    // returned by the native API
     if (type == HealthDataType.MINDFULNESS ||
         type == HealthDataType.SLEEP_IN_BED ||
         type == HealthDataType.SLEEP_ASLEEP ||
@@ -42,21 +43,39 @@ class HealthDataPoint {
     return ms / (1000 * 60);
   }
 
+  /// Converts a json object to the [HealthDataPoint]
+  factory HealthDataPoint.fromJson(json) => HealthDataPoint(
+        json['uuid'],
+        json['value'],
+        HealthDataTypeJsonValue.keys.toList()[
+            HealthDataTypeJsonValue.values.toList().indexOf(json['data_type'])],
+        HealthDataUnitJsonValue.keys.toList()[
+            HealthDataUnitJsonValue.values.toList().indexOf(json['unit'])],
+        DateTime.parse(json['date_from']),
+        DateTime.parse(json['date_to']),
+        PlatformTypeJsonValue.keys.toList()[PlatformTypeJsonValue.values
+            .toList()
+            .indexOf(json['platform_type'])],
+        json['platform_type'],
+        json['source_id'],
+        json['source_name'],
+        json['device_model'],
+      );
+
   /// Converts the [HealthDataPoint] to a json object
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['uuid'] = this.uuid;
-    data['value'] = this.value;
-    data['unit'] = this.unit;
-    data['date_from'] = this.dateFrom;
-    data['date_to'] = this.dateTo;
-    data['data_type'] = this.type;
-    data['platform_type'] = this.platform;
-    data['source_id'] = this.sourceId;
-    data['source_name'] = this.sourceName;
-    data['device_model'] = this._deviceModel;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        'uuid': uuid,
+        'value': value,
+        'data_type': HealthDataTypeJsonValue[type],
+        'unit': HealthDataUnitJsonValue[unit],
+        'date_from': DateFormat('yyyy-MM-dd HH:mm:ss').format(dateFrom),
+        'date_to': DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTo),
+        'platform_type': PlatformTypeJsonValue[platform],
+        'device_id': deviceId,
+        'source_id': sourceId,
+        'source_name': sourceName,
+        'device_model': deviceModel,
+      };
 
   /// Converts the [HealthDataPoint] to a string
   String toString() => '${this.runtimeType} - '
