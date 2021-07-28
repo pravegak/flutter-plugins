@@ -155,7 +155,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
 
                     return [
                         "uuid": "\(sample.uuid)",
-                        "value": sample.value.doubleValue(for: unit),
+                        "value": Double(sample.value),
                         "date_from": Int(sample.startDate.timeIntervalSince1970 * 1000),
                         "date_to": Int(sample.endDate.timeIntervalSince1970 * 1000),
                         "source_id": sample.sourceRevision.source.bundleIdentifier,
