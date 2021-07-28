@@ -223,7 +223,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         unitDict[SLEEP_IN_BED] = HKUnit.init(from: "")
         unitDict[SLEEP_ASLEEP] = HKUnit.init(from: "")
         unitDict[SLEEP_AWAKE] = HKUnit.init(from: "")
-        unitDict[STAND_HOUR] = HKUnit.init(from: "")
+        unitDict[STAND_HOUR] = HKUnit.count()
         unitDict[DISTANCE_SWIMMING] = HKUnit.meter()
         unitDict[DISTANCE_CYCLING] = HKUnit.meter()
         unitDict[EXERCISE_TIME] = HKUnit.init(from: "")
