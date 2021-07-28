@@ -254,13 +254,13 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             dataTypesDict[DISTANCE_SWIMMING] = HKSampleType.quantityType(forIdentifier: .distanceSwimming)!
             dataTypesDict[DISTANCE_CYCLING] = HKSampleType.quantityType(forIdentifier: .distanceCycling)!
             dataTypesDict[EXERCISE_TIME] = HKSampleType.quantityType(forIdentifier: .appleExerciseTime)!
+            dataTypesDict[STAND_HOUR] = HKSampleType.quantityType(forIdentifier: .appleStandHour)!
 
 
             dataTypesDict[MINDFULNESS] = HKSampleType.categoryType(forIdentifier: .mindfulSession)!
             dataTypesDict[SLEEP_IN_BED] = HKSampleType.categoryType(forIdentifier: .sleepAnalysis)!
             dataTypesDict[SLEEP_ASLEEP] = HKSampleType.categoryType(forIdentifier: .sleepAnalysis)!
             dataTypesDict[SLEEP_AWAKE] = HKSampleType.categoryType(forIdentifier: .sleepAnalysis)!
-            dataTypesDict[STAND_HOUR] = HKSampleType.categoryType(forIdentifier: .appleStandHour)!
 
             healthDataTypes = Array(dataTypesDict.values)
         }
