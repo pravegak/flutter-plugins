@@ -226,7 +226,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         unitDict[STAND_HOUR] = HKUnit.count()
         unitDict[DISTANCE_SWIMMING] = HKUnit.meter()
         unitDict[DISTANCE_CYCLING] = HKUnit.meter()
-        unitDict[EXERCISE_TIME] = HKUnit.init(from: "")
+        unitDict[EXERCISE_TIME] = HKUnit.minute()
 
         // Set up iOS 11 specific types (ordinary health data types)
         if #available(iOS 11.0, *) { 
