@@ -45,6 +45,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     let DISTANCE_SWIMMING = "DISTANCE_SWIMMING"
     let DISTANCE_CYCLING = "DISTANCE_CYCLING"
     let EXERCISE_TIME = "EXERCISE_TIME"
+    let MOVE_TIME = "MOVE_TIME"
 
     let WORKOUT = "WORKOUT"
     // let WORKOUT_CYCLING = "WORKOUT_CYCLING"
@@ -227,6 +228,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         unitDict[DISTANCE_SWIMMING] = HKUnit.meter()
         unitDict[DISTANCE_CYCLING] = HKUnit.meter()
         unitDict[EXERCISE_TIME] = HKUnit.minute()
+        unitDict[MOVE_TIME] = HKUnit.minute()
 
         // Set up iOS 11 specific types (ordinary health data types)
         if #available(iOS 11.0, *) { 
@@ -254,6 +256,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             dataTypesDict[DISTANCE_SWIMMING] = HKSampleType.quantityType(forIdentifier: .distanceSwimming)!
             dataTypesDict[DISTANCE_CYCLING] = HKSampleType.quantityType(forIdentifier: .distanceCycling)!
             dataTypesDict[EXERCISE_TIME] = HKSampleType.quantityType(forIdentifier: .appleExerciseTime)!
+            dataTypesDict[MOVE_TIME] = HKSampleType.quantityType(forIdentifier: .appleMoveTime)!
 
 
             dataTypesDict[MINDFULNESS] = HKSampleType.categoryType(forIdentifier: .mindfulSession)!

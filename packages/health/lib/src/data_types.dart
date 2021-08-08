@@ -32,6 +32,7 @@ enum HealthDataType {
   DISTANCE_SWIMMING,
   DISTANCE_CYCLING,
   EXERCISE_TIME,
+  MOVE_TIME,
 
 // Heart Rate events (specific to Apple Watch)
   HIGH_HEART_RATE_EVENT,
@@ -78,6 +79,7 @@ const List<HealthDataType> _dataTypeKeysIOS = [
   HealthDataType.DISTANCE_SWIMMING,
   HealthDataType.DISTANCE_CYCLING,
   HealthDataType.EXERCISE_TIME,
+  HealthDataType.MOVE_TIME,
 ];
 
 /// List of data types available on Android
@@ -127,13 +129,14 @@ const Map<HealthDataType, HealthDataUnit> _dataTypeToUnit = {
   HealthDataType.DISTANCE_SWIMMING: HealthDataUnit.METERS,
   HealthDataType.DISTANCE_CYCLING: HealthDataUnit.METERS,
   HealthDataType.EXERCISE_TIME: HealthDataUnit.MINUTES,
+  HealthDataType.MOVE_TIME: HealthDataUnit.MINUTES,
 
   HealthDataType.WATER: HealthDataUnit.LITER,
   HealthDataType.SLEEP_IN_BED: HealthDataUnit.MINUTES,
   HealthDataType.SLEEP_ASLEEP: HealthDataUnit.MINUTES,
   HealthDataType.SLEEP_AWAKE: HealthDataUnit.MINUTES,
   HealthDataType.MINDFULNESS: HealthDataUnit.MINUTES,
-  HealthDataType.STAND_HOUR: HealthDataUnit.MINUTES,
+  HealthDataType.STAND_HOUR: HealthDataUnit.COUNT,
 
   /// Heart Rate events (specific to Apple Watch)
   HealthDataType.HIGH_HEART_RATE_EVENT: HealthDataUnit.NO_UNIT,
@@ -173,6 +176,8 @@ const HealthDataTypeJsonValue = {
   HealthDataType.LOW_HEART_RATE_EVENT: 'low_heart_rate_event',
   HealthDataType.IRREGULAR_HEART_RATE_EVENT: 'irregular_heart_rate_event',
   HealthDataType.ELECTRODERMAL_ACTIVITY: 'electrodermal_activity',
+  HealthDataType.EXERCISE_TIME: 'exercise_time',
+  HealthDataType.MOVE_TIME: 'move_time',
 };
 
 const HealthDataUnitJsonValue = {
@@ -193,7 +198,7 @@ const HealthDataUnitJsonValue = {
   HealthDataUnit.LITER: 'liter',
 };
 
-const PlatformTypeJsonValue = { 
+const PlatformTypeJsonValue = {
   PlatformType.IOS: 'ios',
   PlatformType.ANDROID: 'android'
 };
