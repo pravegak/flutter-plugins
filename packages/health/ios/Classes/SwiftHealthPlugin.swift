@@ -256,7 +256,6 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             dataTypesDict[DISTANCE_SWIMMING] = HKSampleType.quantityType(forIdentifier: .distanceSwimming)!
             dataTypesDict[DISTANCE_CYCLING] = HKSampleType.quantityType(forIdentifier: .distanceCycling)!
             dataTypesDict[EXERCISE_TIME] = HKSampleType.quantityType(forIdentifier: .appleExerciseTime)!
-            dataTypesDict[MOVE_TIME] = HKSampleType.quantityType(forIdentifier: .appleMoveTime)!
 
 
             dataTypesDict[MINDFULNESS] = HKSampleType.categoryType(forIdentifier: .mindfulSession)!
@@ -288,6 +287,15 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                 HKSampleType.workoutType(),
             ])
         }
+
+        // set up workout related data types
+        if #available(iOS 14.5, *){
+            dataTypesDict[MOVE_TIME] = HKSampleType.quantityType(forIdentifier: .appleMoveTime)!
+            healthDataTypes.append(
+                HKSampleType.quantityType(forIdentifier: .appleMoveTime)!
+            )
+        }
+
 
 
         // Concatenate heart events and health data types (both may be empty)
