@@ -17,4 +17,5 @@ enum HealthDataUnit {
   SIEMENS,
   UNKNOWN_UNIT,
   LITER,
+  METERS_PER_SECOND,
 }

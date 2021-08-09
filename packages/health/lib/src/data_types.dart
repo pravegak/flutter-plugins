@@ -33,6 +33,11 @@ enum HealthDataType {
   DISTANCE_CYCLING,
   EXERCISE_TIME,
   MOVE_TIME,
+  WALKING_SPEED,
+  WALKING_STEP_LENGTH,
+  WALKING_DOUBLE_SUPPORT_PERCENTAGE,
+  STAIR_ASCENT_SPEED,
+  STAIR_DESCENT_SPEED,
 
 // Heart Rate events (specific to Apple Watch)
   HIGH_HEART_RATE_EVENT,
@@ -80,6 +85,11 @@ const List<HealthDataType> _dataTypeKeysIOS = [
   HealthDataType.DISTANCE_CYCLING,
   HealthDataType.EXERCISE_TIME,
   HealthDataType.MOVE_TIME,
+  HealthDataType.WALKING_SPEED,
+  HealthDataType.WALKING_STEP_LENGTH,
+  HealthDataType.WALKING_DOUBLE_SUPPORT_PERCENTAGE,
+  HealthDataType.STAIR_ASCENT_SPEED,
+  HealthDataType.STAIR_DESCENT_SPEED,
 ];
 
 /// List of data types available on Android
@@ -130,6 +140,11 @@ const Map<HealthDataType, HealthDataUnit> _dataTypeToUnit = {
   HealthDataType.DISTANCE_CYCLING: HealthDataUnit.METERS,
   HealthDataType.EXERCISE_TIME: HealthDataUnit.MINUTES,
   HealthDataType.MOVE_TIME: HealthDataUnit.MINUTES,
+  HealthDataType.WALKING_SPEED: HealthDataUnit.METERS_PER_SECOND,
+  HealthDataType.WALKING_STEP_LENGTH: HealthDataUnit.METERS,
+  HealthDataType.WALKING_DOUBLE_SUPPORT_PERCENTAGE: HealthDataUnit.PERCENTAGE,
+  HealthDataType.STAIR_ASCENT_SPEED: HealthDataUnit.METERS_PER_SECOND,
+  HealthDataType.STAIR_DESCENT_SPEED: HealthDataUnit.METERS_PER_SECOND,
 
   HealthDataType.WATER: HealthDataUnit.LITER,
   HealthDataType.SLEEP_IN_BED: HealthDataUnit.MINUTES,
@@ -178,6 +193,12 @@ const HealthDataTypeJsonValue = {
   HealthDataType.ELECTRODERMAL_ACTIVITY: 'electrodermal_activity',
   HealthDataType.EXERCISE_TIME: 'exercise_time',
   HealthDataType.MOVE_TIME: 'move_time',
+  HealthDataType.WALKING_SPEED: 'walking_speed',
+  HealthDataType.WALKING_STEP_LENGTH: 'walking_step_length',
+  HealthDataType.WALKING_DOUBLE_SUPPORT_PERCENTAGE:
+      'walking_double_support_percentage',
+  HealthDataType.STAIR_ASCENT_SPEED: 'stair_ascent_speed',
+  HealthDataType.STAIR_DESCENT_SPEED: 'stair_descent_speed',
 };
 
 const HealthDataUnitJsonValue = {
@@ -196,6 +217,7 @@ const HealthDataUnitJsonValue = {
   HealthDataUnit.SIEMENS: 'siemens',
   HealthDataUnit.UNKNOWN_UNIT: 'unknown_unit',
   HealthDataUnit.LITER: 'liter',
+  HealthDataUnit.METERS_PER_SECOND: 'meters_per_second'
 };
 
 const PlatformTypeJsonValue = {

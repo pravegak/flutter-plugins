@@ -46,6 +46,11 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     let DISTANCE_CYCLING = "DISTANCE_CYCLING"
     let EXERCISE_TIME = "EXERCISE_TIME"
     let MOVE_TIME = "MOVE_TIME"
+    let WALKING_SPEED = "WALKING_SPEED"
+    let WALKING_STEP_LENGTH = "WALKING_STEP_LENGTH"
+    let STAIR_ASCENT_SPEED = "STAIR_ASCENT_SPEED"
+    let STAIR_DESCENT_SPEED = "STAIR_DESCENT_SPEED"
+    let WALKING_DOUBLE_SUPPORT_PERCENTAGE = "WALKING_DOUBLE_SUPPORT_PERCENTAGE"
 
     let WORKOUT = "WORKOUT"
     // let WORKOUT_CYCLING = "WORKOUT_CYCLING"
@@ -229,6 +234,11 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         unitDict[DISTANCE_CYCLING] = HKUnit.meter()
         unitDict[EXERCISE_TIME] = HKUnit.minute()
         unitDict[MOVE_TIME] = HKUnit.minute()
+        unitDict[WALKING_SPEED] = HKUnit.meter().unitDivided(by: HKUnit.second())
+        unitDict[WALKING_STEP_LENGTH] = HKUnit.meter()
+        unitDict[WALKING_DOUBLE_SUPPORT_PERCENTAGE] = HKUnit.percent()
+        unitDict[STAIR_ASCENT_SPEED] = HKUnit.meter().unitDivided(by: HKUnit.second())
+        unitDict[STAIR_DESCENT_SPEED] = HKUnit.meter().unitDivided(by: HKUnit.second())
 
         // Set up iOS 11 specific types (ordinary health data types)
         if #available(iOS 11.0, *) { 
@@ -291,8 +301,18 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         // set up workout related data types
         if #available(iOS 14.5, *){
             dataTypesDict[MOVE_TIME] = HKSampleType.quantityType(forIdentifier: .appleMoveTime)!
+            dataTypesDict[WALKING_SPEED] = HKSampleType.quantityType(forIdentifier: .walkingSpeed)!
+            dataTypesDict[WALKING_STEP_LENGTH] = HKSampleType.quantityType(forIdentifier: .walkingStepLength)!
+            dataTypesDict[WALKING_DOUBLE_SUPPORT_PERCENTAGE] = HKSampleType.quantityType(forIdentifier: .walkingDoubleSupportPercentage)!
+            dataTypesDict[STAIR_ASCENT_SPEED] = HKSampleType.quantityType(forIdentifier: .stairAscentSpeed)!
+            dataTypesDict[STAIR_DESCENT_SPEED] = HKSampleType.quantityType(forIdentifier: .stairDescentSpeed)!
             healthDataTypes.append(
                 HKSampleType.quantityType(forIdentifier: .appleMoveTime)!
+                HKSampleType.quantityType(forIdentifier: .walkingSpeed)!
+                HKSampleType.quantityType(forIdentifier: .walkingStepLength)!
+                HKSampleType.quantityType(forIdentifier: .walkingDoubleSupportPercentage)!
+                HKSampleType.quantityType(forIdentifier: .stairAscentSpeed)!
+                HKSampleType.quantityType(forIdentifier: .stairDescentSpeed)!
             )
         }
 
