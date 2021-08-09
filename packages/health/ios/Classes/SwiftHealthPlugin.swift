@@ -307,12 +307,14 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             dataTypesDict[STAIR_ASCENT_SPEED] = HKSampleType.quantityType(forIdentifier: .stairAscentSpeed)!
             dataTypesDict[STAIR_DESCENT_SPEED] = HKSampleType.quantityType(forIdentifier: .stairDescentSpeed)!
             healthDataTypes.append(
+                contentsOf: [
                 HKSampleType.quantityType(forIdentifier: .appleMoveTime)!,
                 HKSampleType.quantityType(forIdentifier: .walkingSpeed)!,
                 HKSampleType.quantityType(forIdentifier: .walkingStepLength)!,
                 HKSampleType.quantityType(forIdentifier: .walkingDoubleSupportPercentage)!,
                 HKSampleType.quantityType(forIdentifier: .stairAscentSpeed)!,
                 HKSampleType.quantityType(forIdentifier: .stairDescentSpeed)!
+                ]
             )
         }
 
