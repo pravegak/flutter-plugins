@@ -51,6 +51,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
     let STAIR_ASCENT_SPEED = "STAIR_ASCENT_SPEED"
     let STAIR_DESCENT_SPEED = "STAIR_DESCENT_SPEED"
     let WALKING_DOUBLE_SUPPORT_PERCENTAGE = "WALKING_DOUBLE_SUPPORT_PERCENTAGE"
+    let STAND_MINUTES = "STAND_MINUTES"
 
     let WORKOUT = "WORKOUT"
     // let WORKOUT_CYCLING = "WORKOUT_CYCLING"
@@ -239,6 +240,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         unitDict[WALKING_DOUBLE_SUPPORT_PERCENTAGE] = HKUnit.percent()
         unitDict[STAIR_ASCENT_SPEED] = HKUnit.meterUnit(with: .kilo).unitDivided(by: HKUnit.hour())
         unitDict[STAIR_DESCENT_SPEED] = HKUnit.meterUnit(with: .kilo).unitDivided(by: HKUnit.hour())
+        unitDict[STAND_MINUTES] = HKUnit.minute()
 
         // Set up iOS 11 specific types (ordinary health data types)
         if #available(iOS 11.0, *) { 
@@ -306,6 +308,7 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
             dataTypesDict[WALKING_DOUBLE_SUPPORT_PERCENTAGE] = HKSampleType.quantityType(forIdentifier: .walkingDoubleSupportPercentage)!
             dataTypesDict[STAIR_ASCENT_SPEED] = HKSampleType.quantityType(forIdentifier: .stairAscentSpeed)!
             dataTypesDict[STAIR_DESCENT_SPEED] = HKSampleType.quantityType(forIdentifier: .stairDescentSpeed)!
+            dataTypesDict[STAND_MINUTES] = HKSampleType.quantityType(forIdentifier: .appleStandTime)!
             healthDataTypes.append(
                 contentsOf: [
                 HKSampleType.quantityType(forIdentifier: .appleMoveTime)!,
@@ -313,7 +316,8 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
                 HKSampleType.quantityType(forIdentifier: .walkingStepLength)!,
                 HKSampleType.quantityType(forIdentifier: .walkingDoubleSupportPercentage)!,
                 HKSampleType.quantityType(forIdentifier: .stairAscentSpeed)!,
-                HKSampleType.quantityType(forIdentifier: .stairDescentSpeed)!
+                HKSampleType.quantityType(forIdentifier: .stairDescentSpeed)!,
+                HKSampleType.quantityType(forIdentifier: .appleStandTime)!
                 ]
             )
         }

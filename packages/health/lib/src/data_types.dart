@@ -38,6 +38,7 @@ enum HealthDataType {
   WALKING_DOUBLE_SUPPORT_PERCENTAGE,
   STAIR_ASCENT_SPEED,
   STAIR_DESCENT_SPEED,
+  STAND_MINUTES,
 
 // Heart Rate events (specific to Apple Watch)
   HIGH_HEART_RATE_EVENT,
@@ -90,6 +91,7 @@ const List<HealthDataType> _dataTypeKeysIOS = [
   HealthDataType.WALKING_DOUBLE_SUPPORT_PERCENTAGE,
   HealthDataType.STAIR_ASCENT_SPEED,
   HealthDataType.STAIR_DESCENT_SPEED,
+  HealthDataType.STAND_MINUTES,
 ];
 
 /// List of data types available on Android
@@ -152,6 +154,7 @@ const Map<HealthDataType, HealthDataUnit> _dataTypeToUnit = {
   HealthDataType.SLEEP_AWAKE: HealthDataUnit.MINUTES,
   HealthDataType.MINDFULNESS: HealthDataUnit.MINUTES,
   HealthDataType.STAND_HOUR: HealthDataUnit.COUNT,
+  HealthDataType.STAND_MINUTES: HealthDataUnit.MINUTES,
 
   /// Heart Rate events (specific to Apple Watch)
   HealthDataType.HIGH_HEART_RATE_EVENT: HealthDataUnit.NO_UNIT,
@@ -199,6 +202,7 @@ const HealthDataTypeJsonValue = {
       'walking_double_support_percentage',
   HealthDataType.STAIR_ASCENT_SPEED: 'stair_ascent_speed',
   HealthDataType.STAIR_DESCENT_SPEED: 'stair_descent_speed',
+  HealthDataType.STAND_MINUTES: 'stand_minutes',
 };
 
 const HealthDataUnitJsonValue = {
