@@ -234,11 +234,11 @@ public class SwiftHealthPlugin: NSObject, FlutterPlugin {
         unitDict[DISTANCE_CYCLING] = HKUnit.meter()
         unitDict[EXERCISE_TIME] = HKUnit.minute()
         unitDict[MOVE_TIME] = HKUnit.minute()
-        unitDict[WALKING_SPEED] = HKUnit.meter().unitDivided(by: HKUnit.second())
+        unitDict[WALKING_SPEED] = HKUnit.meter(with: .kilo).unitDivided(by: HKUnit.hour())
         unitDict[WALKING_STEP_LENGTH] = HKUnit.meter()
         unitDict[WALKING_DOUBLE_SUPPORT_PERCENTAGE] = HKUnit.percent()
-        unitDict[STAIR_ASCENT_SPEED] = HKUnit.meter().unitDivided(by: HKUnit.second())
-        unitDict[STAIR_DESCENT_SPEED] = HKUnit.meter().unitDivided(by: HKUnit.second())
+        unitDict[STAIR_ASCENT_SPEED] = HKUnit.meter(with: .kilo).unitDivided(by: HKUnit.hour())
+        unitDict[STAIR_DESCENT_SPEED] = HKUnit.meter(with: .kilo).unitDivided(by: HKUnit.hour())
 
         // Set up iOS 11 specific types (ordinary health data types)
         if #available(iOS 11.0, *) { 
