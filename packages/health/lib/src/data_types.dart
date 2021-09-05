@@ -167,6 +167,9 @@ const Map<HealthDataType, HealthDataUnit> _dataTypeToUnit = {
 };
 
 const HealthDataTypeJsonValue = {
+  HealthDataType.STAND_HOUR: 'stand_hour',
+  HealthDataType.DISTANCE_SWIMMING: 'distance_swimming',
+  HealthDataType.SWIMMING_STROKE_COUNT: 'swimming_stroke_count',
   HealthDataType.ACTIVE_ENERGY_BURNED: 'active_energy_burned',
   HealthDataType.BASAL_ENERGY_BURNED: 'basal_energy_burned',
   HealthDataType.BLOOD_GLUCOSE: 'blood_glucose',
@@ -206,6 +209,7 @@ const HealthDataTypeJsonValue = {
   HealthDataType.STAIR_ASCENT_SPEED: 'stair_ascent_speed',
   HealthDataType.STAIR_DESCENT_SPEED: 'stair_descent_speed',
   HealthDataType.STAND_MINUTES: 'stand_minutes',
+  HealthDataType.DISTANCE_CYCLING: 'distance_cycling',
 };
 
 const HealthDataUnitJsonValue = {
